@@ -1,4 +1,6 @@
+//source/repos/"3d Term"/arithmetics
 #include <iostream>
+#include "arithmetics.h"
 
 using namespace std;
 
