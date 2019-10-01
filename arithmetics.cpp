@@ -1,4 +1,5 @@
 #include "arithmetics.h"
+#include <cmath>
 using namespace std;
 
 BigInteger::BigInteger(string s_init) : s(s_init) {}
@@ -47,7 +48,37 @@ BigInteger Naive::multiply(BigInteger const & i1, BigInteger const & i2)
 		M = i2.length();
 	string s1 = i1.get(),
 		   s2 = i2.get();
-	if (N == M == 1) {
-		return BigInteger(to_string(stoi(s1)*stoi(s2)));
+	return BigInteger(to_string(stoi(s1)*stoi(s2)));
+}
+
+template<typename T> T max(T a, T b) {
+	return a > b ? a : b;
+}
+
+/*string Karatsuba::add(string s1, string s2) {
+	size_t n = max(s1.length(), s2.length()) + 1;
+	bool f = false;
+	char* c = new char[n];
+	for (size_t i = 0; i < n; ++i) {
+
+	}
+
+}
+
+string Karatsuba::mult(string s1, string s2, int N, int M)
+{
+	if ((N == M)&&(N%2 == 0)) {
+		string u1 = s1.substr(N),
+			u2 = s1.substr(0, N),
+			v1 = s2.substr(N),
+			v2 = s2.substr(0, N);
+
 	}
 }
+
+BigInteger Karatsuba::multiply(BigInteger const& i1, BigInteger const& i2) {
+	string u = i1.get(),
+		v = i2.get();
+	return BigInteger(mult(u, v, u.length(), v.length()));
+}
+*/

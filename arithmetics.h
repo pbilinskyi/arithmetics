@@ -14,6 +14,13 @@ public:
 	BigInteger multiply(BigInteger const& i1, BigInteger const& i2);
 };
 
+class Karatsuba : public MultiplicationAlg{
+	//string mult(string, string, int, int);
+	//string add(string, string);
+public:
+	//BigInteger multiply(BigInteger const& i1, BigInteger const& i2);
+};
+
 class BigInteger {
 	string	s;
 	MultiplicationAlg* alg = new Naive;
