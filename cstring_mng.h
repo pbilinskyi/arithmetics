@@ -10,6 +10,8 @@ namespace cstr {
 
 	char* substr(const char* c, size_t pos);
 
+	char* substrUnlim(const char* c, size_t pos, size_t length);
+
 	char* merge(const char* c1, const char* c2);
 
 	char* left_shift(const char*, size_t);

@@ -4,6 +4,27 @@
 #include <charconv>
 #include <cstring>
 
+char* cstr::substrUnlim(const char* c, size_t pos, size_t length) {
+	size_t N = 0;
+	while (c[N]) ++N;
+
+	char* sub = nullptr;
+
+
+	if (N < pos) {
+		sub = new char[2]{'0', '\0'};
+	}
+	else {
+		size_t i = 0;
+		sub = new char[(length <= N - pos) ? (length + 1): (N - pos + 1)];
+		for (; (i < N - pos)&&(i < length); ++i)	sub[i] = c[pos + i];
+		
+		sub[i] = '\0';
+	}
+
+	return sub;
+}
+
 char* cstr::substr(const char* c, size_t pos, size_t length) {
 	size_t N = 0;
 	while (c[N]) ++N;

@@ -3,7 +3,7 @@
 #include "cstring_mng.h"
 
 
-BigInteger Karatsuba::multiply(BigInteger const& U, BigInteger const& V) {
+BigInteger Karatsuba::multiply(const BigInteger & U, const BigInteger & V) {
 	int N = cstr::length(U.get());
 	int M = cstr::length(V.get());
 

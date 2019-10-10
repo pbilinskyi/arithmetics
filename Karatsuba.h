@@ -7,6 +7,6 @@ class Karatsuba : public MultiplicationAlg {
 private:
 	Naive naive;
 public:
-	BigInteger multiply(BigInteger const& i1, BigInteger const& i2);
+	BigInteger multiply(const BigInteger & i1, const BigInteger & i2);
 };
 
