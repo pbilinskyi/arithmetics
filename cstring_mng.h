@@ -20,9 +20,18 @@ namespace cstr {
 
 	char* add(const char* c1, const char* c2);
 
+	char* subtract(const char* c1, const char* c2);
+	
+	int compare(const char*, const char*, size_t, size_t);
+	int compare(const char*, const char*);
+
+	char* trim(const char*);
+
 	char* invert(const char* c);
 
 	const char*  binToDec(const char* c_bin);
+
+	const char* decToBin(int n);
 
 	size_t length(const char* c);
 }

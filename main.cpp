@@ -68,7 +68,9 @@ void g() {
 	BigInteger U("10101011"), V("00110011"), res("");
 	int r = 3, q = 2;
 
-	list<BigInteger> Uj, Vj, U_segm, V_segm;
+	//segmentation - split into r + 1 parts with q bits 
+	//order: U_r, U_r-1, ... , U_0
+	list<BigInteger> U_segm, V_segm;
 	for (int i = r; i >= 0; --i) {
 		BigInteger Ui(cstr::substrUnlim(U.get(), i*q, q));
 		BigInteger Vi(cstr::substrUnlim(V.get(), i*q, q));
@@ -76,35 +78,53 @@ void g() {
 		V_segm.push_back(Vi);
 	}
 
-	//segmentation - split into r + 1 parts with q bits 
-	BigInteger j = "0", U_temp("0"), V_temp("0");
-	for (size_t i = 0; i <= 2 * r; ++i) {
-		U_temp = BigInteger("0");
+	//order in Wj: W_0, W_1, ..., W_2r
+	size_t deg_W = 2 * r;
+	BigInteger* W = new BigInteger[deg_W + 1];
+	BigInteger j("0"), U_j("0"), V_j("0");
+
+	for (size_t i = 0; i <= deg_W; ++i) {
+		U_j = "0";
 		for (list<BigInteger>::iterator it = U_segm.begin(); it != U_segm.end(); ++it) {
-			U_temp = (U_temp * j) + (*it);
-			cout << U_temp.get() << endl;
+			U_j = (U_j * j) + (*it);
 		}
 
-		V_temp = BigInteger("0");
+		V_j = "0";
 		for (list<BigInteger>::iterator it = V_segm.begin(); it != V_segm.end(); ++it) {
-			V_temp = (V_temp * j) + (*it);
-			cout << V_temp.get() << endl;
+			V_j = (V_j * j) + (*it);
 		}
 
+		W[i] = U_j * V_j;
 		++j;
 	}
-	//multiply segments 
+	// find all a
+	j = "1";
+	for (size_t i = 1; i <= deg_W; ++i) {
+		for (size_t t = deg_W; t >= i; t) {
+			W[t] = (W[t] - W[t - 1]) / j;
+		}
+		++j;
+	}
+	//find all W_j
+	for (size_t i = deg_W - 1; i <= 1; --i) {
+		for (size_t t = i; t <= deg_W - 1; ++t) {
+			W[t] = W[t] - W[t - 1] * j;
+		}
+		++j;
+	}
+
+	//print W = U*V
+	for (int i = 0; i >= 0; --i) cout << W[i];
+	cout << endl;
 }
 
 int main() {
 	//default MultiplicationAlg - Karatsuba
 	//BigInteger i1("0111"), i2("101");
-	//cout << (i1*i2).get() << endl;
+	//cout << i1 - i2 << endl;
 	
-	g();
-	//Karatsuba kara
-	//BigInteger i1("0"), i2("01");
-	//cout << i1.get()<< endl <<kara.multiply(i1, i2).get() << endl;
+	//g();
+
 	system("pause");
 	return 0;
 }

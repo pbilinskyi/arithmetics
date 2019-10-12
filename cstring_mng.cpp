@@ -3,6 +3,7 @@
 #include <string>
 #include <charconv>
 #include <cstring>
+#include <cmath>
 
 char* cstr::substrUnlim(const char* c, size_t pos, size_t length) {
 	size_t N = 0;
@@ -176,6 +177,108 @@ char* cstr::add(const char* c1, const char* c2) {
 	return c;
 }
 
+//returns abs(c1 - c2)
+char * cstr::subtract(const char * c1, const char * c2)
+{
+	size_t N1 = 0, N2 = 0;
+	while (c1[++N1]);
+	while (c2[++N2]);
+
+	int comp = compare(c1, c2, N1, N2);
+	if (comp == 0) return new char[2]{ '0', 0 };
+	if (comp < 0) {
+		const char* t = c2;
+		c2 = c1;
+		c1 = t;
+	}
+
+	//1 for carryover, 1 for '\0' 
+	char* c = new char[N1 + 1];
+
+	bool carry = false;
+	size_t i = 0;
+	while (*c1 && *c2) {
+		if (carry) {
+			if ((*c1 == '1') && (*c2 == '0')) {
+				c[i] = '0';
+				carry = 0;
+			}
+			else if ((*c1 == '0') && (*c2 == '1')) {
+				c[i] = '0';
+			}
+			else  {
+				c[i] = '1';
+			}
+		}
+		else {
+			if ((*c1 == '1') && (*c2 == '0')) {
+				c[i] = '1';
+			}
+			else  if ((*c1 == '0') && (*c2 == '1') ){
+				c[i] = '1';
+				carry = 1;
+			}
+			else {
+				c[i] = '0';
+			}
+		}
+		++c1;
+		++c2;
+		++i;
+	}
+
+	while (*c1) {
+		if (carry) {
+			c[i] = (*c1 == '1') ? '0' : '1';
+			carry = (*c1 == '0');
+		}
+		else {
+			c[i] = *c1;
+		}
+		++c1;
+		++i;
+	}
+
+	c[i] = '\0';
+	return trim(c);
+}
+
+int cstr::compare(const char* s1, const char* s2, size_t N1, size_t N2) {
+
+	if (N1 != N2) return N1 > N2 ? 1 : -1;
+
+	int res = 0;
+
+	for (int i = N1 - 1; !res && (i >= 0); --i) {
+		if (s1[i] > s2[i]) res = 1;
+		else if (s2[i] > s1[i]) res = -1;
+	}
+
+	return res;
+}
+
+int cstr::compare(const char* s1, const char* s2) {
+	size_t N1 = 0, N2 = 0;
+	while (s1[++N1]);
+	while (s2[++N2]);
+
+	if (N1 != N2) return N1 > N2 ? 1 : -1;
+
+	int res = 0;
+
+	for (int i = N1 - 1; !res && (i >= 0); --i) {
+		if (s1[i] > s2[i]) res = 1;
+		else if (s2[i] > s1[i]) res = -1;
+	}
+
+	return res;
+}
+
+char * cstr::trim(const char* s) {
+	const char* c = strrchr(s, '1');
+	return substr(s, 0, c - s + 1);
+}
+
 char* cstr::invert(const char* c) {
 	size_t N = 0;
 	while (c[N]) ++N;
@@ -195,6 +298,18 @@ const char* cstr::binToDec(const char* c_bin) {
 	char* res = new char[s.length() + 1];
 	strcpy_s(res, s.length() + 1, s.c_str());
 	return res;
+}
+//pre: do not pass negative n
+const char * cstr::decToBin(int n)
+{
+	size_t length = static_cast<int>(floor(log2(n))) + 1;
+	char* a = new char[length + 1];
+	for (int i = 0; i < length; ++i) {
+		a[i] = (n % 2 == 0) ? '0' : '1';
+		n /= 2;
+	}
+	a[length] = '\0';
+	return a;
 }
 
 size_t cstr::length(const char* c) {
