@@ -291,12 +291,13 @@ char* cstr::invert(const char* c) {
 	return c_inv;
 }
 
-const char* cstr::binToDec(const char* c_bin) {
-	int x = std::stoi(std::string(cstr::invert(c_bin)), nullptr, 2);
-	std::string s = std::to_string(x);
-
-	char* res = new char[s.length() + 1];
-	strcpy_s(res, s.length() + 1, s.c_str());
+int cstr::binToDec(const char* s_bin) {
+	size_t N = length(s_bin);
+	int res = (s_bin[N-1] == '1');
+	for (int i = N - 2; i >= 0; --i) {
+		if (s_bin[i] == '1') res = (res + 1) * 2;
+		else res = res * 2;
+	}
 	return res;
 }
 //pre: do not pass negative n

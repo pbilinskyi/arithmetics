@@ -1,42 +1,18 @@
-//source/repos/"3d Term"/arithmetics
 #include <iostream>
-#include <bitset>
-#include <random>
-#include <ctime>
 #include <list>
 #include "cstring_mng.h"
-#include "BigInteger.h"
-#include "Naive.h"
+#include "ToomCook.h"
 #include "Karatsuba.h"
-
 using namespace std;
 
-void testAddition() {
-	srand(time(0));
+BigInteger ToomCook::mult(const BigInteger & U, const BigInteger& V, size_t N)
+{
 
-	for (int i = 0; i < 10; ++i) {
-		int i1 = static_cast<int>(rand() % 256),
-			i2 = static_cast<int>(rand() % 256);
-
-		cout << "I1:      " << i1 << '\t' << bitset<8>(i1) << endl;
-		cout << "I2:      " << i2 << '\t' << bitset<8>(i2) << endl;
-		cout << "I1 + I2: " << i1 + i2 << '\t' << cstr::add(bitset<8>(i1).to_string().c_str(), bitset<8>(i2).to_string().c_str()) << endl;
-	}
-}
-
-
-template<typename T> void printArr(T* a, size_t N) {
-	for (int i = 0; i < N; ++i) {
-		cout <<"["<< i << "]: " << a[i] << " ";
-	}
-	cout << endl;
-}
-
-BigInteger ToomCook(BigInteger U, BigInteger V, size_t N) {
 	int k = 1,
 		q1 = 16, q0 = q1,
 		r1 = 4, r0 = r1,
 		Q = 4, R = 2;
+
 	while (q0 + q1 < N) {
 		++k;
 		Q += R;
@@ -57,7 +33,7 @@ BigInteger ToomCook(BigInteger U, BigInteger V, size_t N) {
 	//segmentation - split into r + 1 parts with q bits 
 	//order: U_r, U_r-1, ... , U_0
 	BigInteger *U_segm = new BigInteger[r + 1],
-		 *V_segm = new BigInteger[r + 1];
+		*V_segm = new BigInteger[r + 1];
 
 	for (int i = r; i >= 0; --i) {
 		U_segm[r - i] = cstr::substrUnlim(U.get(), i*q, q);
@@ -100,25 +76,16 @@ BigInteger ToomCook(BigInteger U, BigInteger V, size_t N) {
 	//W = U*V, shift and addition of segments
 	BigInteger Res("0");
 	for (int i = 0; i <= deg_W; ++i) {
-		Res = Res + (W[i] >> i*q);
+		Res = Res + (W[i] >> i * q);
 	}
 	return Res;
 
 }
 
-int main() {
-	//default MultiplicationAlg - Karatsuba
-	//BigInteger i1("0111"), i2("101");
-	//cout << i1 - i2 << endl;
-	//BigInteger U("010010110010"), V("101001001001");
-	//======
-	BigInteger U("100000001111111100000000111111110000000011111111"), V("000110001111111100011000111111110001100011111111"), res("");
-
-	
-	size_t N = cstr::length(U.get());
-	cout << cstr::binToDec(ToomCook(U, V, N).get()) << endl;
-	//====
-	
-	system("pause");
-	return 0;
+BigInteger ToomCook::multiply(const BigInteger& i1, const BigInteger &i2) {
+	size_t N1 = cstr::length(i1.get()),
+		N2 = cstr::length(i2.get());
+	size_t N = N1 > N2 ? N1 : N2;
+	return mult(i1, i2, N);
 }
+

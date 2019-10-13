@@ -20,12 +20,13 @@ BigInteger::BigInteger(const char* s_init) {
 }
 
 BigInteger& BigInteger::operator=(BigInteger const& other) {
-	s = other.s;
+	*this = other.s;
 	return *this;
 }
 
 BigInteger& BigInteger::operator=(BigInteger && other) {
-	s = std::move(other.s);
+	s = other.s;
+	other.s = nullptr;
 	return *this;
 }
 
@@ -89,6 +90,12 @@ BigInteger& BigInteger::operator++()
 	s = new char[N + 1];
 	strcpy_s(s, (N + 1) * sizeof(char), s_init);
 	
+	return *this;
+}
+
+BigInteger & BigInteger::operator--()
+{
+	s = cstr::subtract(s, "1");
 	return *this;
 }
 

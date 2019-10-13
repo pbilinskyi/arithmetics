@@ -27,6 +27,7 @@ public:
 	BigInteger operator -(const BigInteger& other) const;
 
 	BigInteger& operator++();
+	BigInteger& operator--();
 
 
 	bool operator==(const BigInteger& other) const;

@@ -29,7 +29,7 @@ namespace cstr {
 
 	char* invert(const char* c);
 
-	const char*  binToDec(const char* c_bin);
+	int binToDec(const char* c_bin);
 
 	const char* decToBin(int n);
 
