@@ -243,6 +243,13 @@ char * cstr::subtract(const char * c1, const char * c2)
 	return trim(c);
 }
 
+char * cstr::remainder(const char * s, const char * n)
+{
+
+	return nullptr;
+}
+
+
 int cstr::compare(const char* s1, const char* s2, size_t N1, size_t N2) {
 
 	if (N1 != N2) return N1 > N2 ? 1 : -1;

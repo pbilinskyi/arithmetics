@@ -7,9 +7,12 @@
 //pre: use for multiplying only 1-digit numbers!
 BigInteger Naive::multiply(BigInteger const & i1, BigInteger const & i2)
 {
-	std::string s1 = i1.get(),
-		s2 = i2.get();
-	return BigInteger(std::to_string(stoi(s1)*stoi(s2)).c_str());
+	const char *s1 = i1.get(),
+		*s2 = i2.get();
+	char* res;
+	if (*s1 == *s2) res = (*s1 == '1') ? new char[2]{ '1', 0 } : new char[2]{ '0', 0 };
+	else res = new char[2]{ '0', '\0' };
+	return BigInteger(res);
 }
 
 BigInteger Naive::div(BigInteger const & i1, BigInteger const & i2)

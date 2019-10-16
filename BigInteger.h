@@ -1,8 +1,11 @@
 #pragma once
 #include <ostream>
+#include <utility>
 
 class BigInteger {
-	char* s;
+	char* s = nullptr;
+	//1st - quotient, 2nd - remainder
+	std::pair<BigInteger, BigInteger> div(const BigInteger&, const BigInteger&) const;
 public:
 	BigInteger();
 	BigInteger(const char*);
@@ -11,10 +14,12 @@ public:
 	BigInteger& operator=(BigInteger const &);
 	BigInteger& operator=(BigInteger&&);
 	BigInteger& operator=(const char*);
-	~BigInteger() = default;
+	~BigInteger();
 
 	BigInteger operator *(const BigInteger& other) const;
 	BigInteger operator /(const BigInteger& other) const;
+	BigInteger operator %(const BigInteger& other) const;
+
 
 	friend std::ostream &operator<<(std::ostream &output, const BigInteger &i);
 
@@ -29,9 +34,18 @@ public:
 	BigInteger& operator++();
 	BigInteger& operator--();
 
+	char operator[](int i) const;
 
 	bool operator==(const BigInteger& other) const;
+	bool operator>(const BigInteger& other) const;
+	bool operator>=(const BigInteger& other) const;
+	bool operator<(const BigInteger& other) const;
+	bool operator<=(const BigInteger& other) const;
+
 	char* get() const noexcept;
+	void concat(const BigInteger&);
+	void concat(const char*);
+	void concatFront(char);
 	bool isNull() const noexcept;
 	void print() const noexcept;;
 };

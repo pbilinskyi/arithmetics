@@ -18,10 +18,13 @@ namespace cstr {
 
 	char* right_shift(const char*, size_t);
 
+	//arithmetical operations with binary strings
 	char* add(const char* c1, const char* c2);
 
 	char* subtract(const char* c1, const char* c2);
 	
+	char* remainder(const char* s1, const char* n);
+
 	int compare(const char*, const char*, size_t, size_t);
 	int compare(const char*, const char*);
 
